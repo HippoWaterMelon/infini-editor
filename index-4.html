@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Craft Save Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAKlBMVEVHcEw6OjpISEiYmJhwcHCIiIhUVFRiYmK+vr58fHzk5OQAAAAZGRksLCyItmvEAAAAC3RSTlMA+OU3jlTMrCJvDa5ZFSAAAARHSURBVHic7Vrr0uMgCI2XXKvv/7obE2MUULHbmZ3Z4fz72gIHBFT8pkkgEAgEAoFAIBAIBAKBoIZjMye2459oOWa7aOVPKL3YefvSeKmFT8Ksyn0yOLUOSCfr32qZtf8gOGXHKOzaEVr03hU0CyF4Qc9887OuKHEdLYclvE/CKzMIx1pz4oRvadmWuuAl3I9gcF+1tWhTkzQdyabw60TD/RuqsgxzI/wJvXVYOUo8yYBlv8H/imEt+RgMGPGPcLZmv5XCgAFayoPk7s4WFpoZ+Hghl+GAKRylyZxQsLtS+a9s/NV2drW2ePhR6cLZ9x5pSwV3KaV3TBP0vrK34BCWS6j3QnjHFMqF3NAP3IqcLCjANCrsK9QviN5U+LCib6mWU/TJMga5fU9uG7jIskUwkB5dqGWXURmDLIJuqWzeBjJwrxGUvvVSz1bzzcSshBrdGjHQ1QC0Wn7Wa/QT6teBZquegZ3kJ8yApaGkKPcFyl/hr/dqGOkof4DQuN4J7M3oNfxpk2Bvv4aW/G1pB7zWjv3TZGJgsxbi+oIw1ncvAIHpBiBn4OaUWgz7KAT3GijqQy4D/0jXt6gcwNlrDWBusk492Srw/a8Ys0BT98xDMWDanzawBkEMREV3lVAMmPanSWNr4CO2qjx0fCFQB+r8CASFlUuAAd/+NIMFP6atTIvGNlB1h1U3EbDtm8kASkMX0Wv59MilDWbhDGPihwgEdWOUYdfZYSNWQ9qusuY1jgf6lwTuc8hY0H5KILYQdusgCcAcGMioVNMDZYhzAFTBQDyzozy/eRyIAOwDzK2gvErwtsIAWIYGdkJ2I9pvOb2MMQCNKNQwiAlTU7SvjphVvNkFOn75Ce2GvL4arxkhXvFIxGQANiONP2Jl4XPNucIVk4HFAN4BQ/2AOuTU1GO/PJZzGIDTz9VF0Vm5Wwdx/UMC3IjNpZ+JsAbucMPrQq+xPUehl+mjt3sxoE3BsLQXIY3yXBbx1BOWZvjQJdwW/FkM3stp8aP3mN5IBGT/6Xp4PEMPgYrrOSjXpLx6Pcf202LDw3r4itSSzUDhMah7Q0cjrE92kiAmZJSW7CCOSyWfURBLSM1vUxVRIcDT8XxERA4afV2WnMHnWUwPOJU1D8fN6opoxtCXsvHjw1hafV7uaEaSXFXLgoaNtYZTzvqc10EWTTnT90WUcIY2UK1S1FH4WuhJLY3GPaDz3pADDlvRCKuK1l6BB55VLSiNiWEtCToBH3Bn/pQWOHKoSHZ2PJ4ftBYOg/6OuzNiUBtn9N8bPOPE2GdQ96In23qtedF7NWttmKZVR47eoTDaD2fth7eDfN243R+YnRAPFI/73Sdgs5LCamVfmQI2WotnaTkpwLOjtkPmLwoWPoI7vhPHvGrlnQs7ilf6i8f7S8u5DSrvgxb3hZbNzLu1+2y+/O+FX2j5y//e+LkegUAgEAgEAoFAIBD8p/gD8s2ep8QcwjoAAAAASUVORK5CYII="> 
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            overflow: auto;
+            background-color: #ffffff; /* Light mode background */
+            color: #000000; /* Light mode text color */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            --line-color-base: rgba(0, 0, 0, 1); /* Black for light mode */
+            --canvas-background: #ffffff;
+        }
+
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212; /* Dark mode background */
+            color: #f0f0f0; /* Dark mode text color */
+            --line-color-base: rgba(255, 255, 255, 1); /* White for dark mode */
+            --canvas-background: #121212;
+        }
+
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+
+        .logo-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+
+        .logo-container img {
+            width: 200px;
+            height: auto;
+            filter: invert(0); /* Default logo for light mode */
+            transition: filter 0.3s ease;
+        }
+
+
+        body.dark-mode .logo-container img {
+            filter: invert(1); /* Logo inversion for dark mode */
+        }
+
+
+        .logo-container p {
+            font-size: 1.5rem;
+            color: inherit; /* Inherit text color based on theme */
+            margin-top: 10px;
+        }
+
+
+        /* Custom File Upload Button */
+        .custom-upload-container {
+          display: flex;
+          flex-direction: column; /* Stack elements vertically */
+          align-items: center; /* Center align items horizontally */
+          gap: 10px; /* Add spacing between the elements */
+        }
+      
+        .button-row {
+          display: flex; /* Align buttons and "or" text horizontally */
+          align-items: center; /* Vertically align buttons and text */
+          gap: 15px; /* Add spacing between buttons and "or" text */
+        }
+        
+        .custom-upload-button {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 1rem;
+            color: #000;
+            background: linear-gradient(to bottom, #ffffff, #f8feff);
+            border: 2px solid #e9eff4;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+            font-weight: bold;
+        }
+
+
+        .custom-upload-button:hover {
+            background: linear-gradient(to bottom, #ffffff, #d6fafd);
+            border-color: #91a8c1;
+        }
+
+
+        body.dark-mode .custom-upload-button {
+            color: #ffffff;
+            background: linear-gradient(to bottom, #21252a, #000000);
+            border: 2px solid #ffffff;
+        }
+        
+        body.dark-mode .custom-upload-button:hover {
+            background: linear-gradient(to bottom, #516672, #000000);
+            border: 2px solid #c7e0ff;
+        }
+
+
+        .file-name {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+
+        body.dark-mode .file-name {
+            color: #aaaaaa;
+        }
+
+
+        /* Hidden File Input */
+        #fileInput {
+            display: none;
+        }
+
+
+        /* Editor Grid Layout */
+        #editor {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 90%;
+            margin: 20px auto;
+        }
+
+
+        /* Block Styles */
+        .item-block {
+            background: linear-gradient(to bottom, #ffffff, #f8feff);
+            border: 2px solid #e9eff4;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        body.dark-mode .item-block {
+            background: linear-gradient(to bottom, #21252a, #000000);
+            border: 2px solid #ffffff;
+        }
+
+
+        .item-id {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+
+        body.dark-mode .item-id {
+            color: #fff;
+        }
+
+
+        .item-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 5px 0;
+            color: #333;
+            border: 1px solid #e9eff4;
+            padding: 5px;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+        }
+
+
+        body.dark-mode .item-text {
+            color: #fff;
+            background: #222;
+            border: 1px solid #fff;
+        }
+
+
+        .item-emoji {
+            font-size: 2rem;
+            text-align: center;
+            border: 1px solid #e9eff4;
+            border-radius: 5px;
+            width: 100%;
+            padding: 5px;
+            margin: 10px 0;
+        }
+
+
+        body.dark-mode .item-emoji {
+            color: #fff;
+            background: #222;
+            border: 1px solid #fff;
+        }
+
+
+        .delete-button {
+            background: linear-gradient(to bottom, #ffffff, #f8feff);
+            border: 1px solid #e9eff4;
+            color: #000;
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+
+        .delete-button:hover {
+            background: linear-gradient(to bottom, #ffffff, #d6fafd);
+            color: #000;
+            border-color: #91a8c1;
+        }
+
+
+        body.dark-mode .delete-button {
+            color: #f0f0f0;
+            background: linear-gradient(to bottom, #21252a, #000000);
+            border: 1px solid #555555;
+        }
+      
+        body.dark-mode .delete-button:hover {
+            background: linear-gradient(to bottom, #516672, #000000);
+            border: 2px solid #c7e0ff;
+        }
+
+
+        /* Add and Export Buttons */
+        .add-button,
+        .export-button {
+          background: linear-gradient(to bottom, #ffffff, #f8feff);
+          border: 2px solid #e9eff4;
+          color: #000;
+          font-size: 1rem;
+          font-weight: bold;
+          padding: 12px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background 0.3s ease, color 0.3s ease;
+          margin: 20px auto;
+        }
+
+
+        .add-button:hover,
+        .export-button:hover {
+            background: linear-gradient(to bottom, #ffffff, #d6fafd);
+            color: #000;
+            border-color: #91a8c1;
+        }
+        
+        /* Hidden class for hiding elements */
+        .hidden {
+            display: none;
+        }
+
+
+        body.dark-mode .add-button,
+        body.dark-mode .export-button {
+            color: #f0f0f0;
+            background: linear-gradient(to bottom, #21252a, #000000);
+            border: 2px solid #ffffff;
+        }
+        
+        body.dark-mode .add-button:hover,
+        body.dark-mode .export-button:hover {
+            background: linear-gradient(to bottom, #516672, #000000);
+            border: 2px solid #c7e0ff;
+        }
+
+
+        /* Dark mode toggle button without background circle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 30px; /* Adjust width to match the icon size */
+            height: 30px; /* Adjust height to match the icon size */
+            background-color: #ffffff; /* Remove background color */
+            border: none; /* Remove border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10; /* Keep above other elements */
+            /* opacity: 0; */
+            visibility: hidden;
+        }
+        
+        /* Style the dark mode icon */
+        #darkModeIcon {
+          width: 30px; /* Set the width of the image */
+          height: 30px; /* Set the height of the image */
+          transition: filter 0.3s ease; /* Smooth transition for inversion */
+          visibility: visible;
+        }
+
+
+        /* Apply inversion in dark mode */
+        body.dark-mode #darkModeIcon {
+          filter: invert(1); /* Invert the image color */
+        }
+
+
+        .dark-mode-toggle.dark {
+            background-color: #000000; /* White for dark mode */
+        }
+        
+        /* Style for the search bar */
+        .search-container {
+          position: sticky;
+          top: 20px; /* Stick to the top of the viewport */
+          z-index: 1000; /* Ensure it appears on top of other elements */
+          text-align: center;
+          margin-left: 20px;
+          margin-right: 20px;
+          margin-bottom: 20px;
+        }
+
+
+        .search-bar {
+          width: 90%;
+          max-width: 500px;
+          padding: 10px;
+          font-size: 1rem;
+          border: 2px solid #e9eff4;
+          border-radius: 8px;
+          outline: none;
+          transition: border-color 0.3s ease;
+        }
+
+
+        .search-bar:focus {
+            border-color: #91a8c1;
+        }
+
+
+        body.dark-mode .search-bar {
+            background: #222;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+
+        body.dark-mode .search-bar:focus {
+            border-color: #c7e0ff;
+        }
+        
+        /* Style for the Name Editor */
+        .name-editor {
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px;
+        }
+    
+        .name-editor label {
+          font-size: 1.2rem;
+          margin-right: 20px; /* Keeps space between label and input */
+          margin-bottom: 10px; /* Reduce bottom margin for closer alignment */
+          display: inline-block; /* Ensure proper alignment */
+        }
+    
+        .name-input {
+            width: 90%;
+            max-width: 500px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #e9eff4;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+    
+        .name-input:focus {
+            border-color: #91a8c1;
+        }
+    
+        body.dark-mode .name-input {
+            background: #222;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+    
+        body.dark-mode .name-input:focus {
+            border-color: #c7e0ff;
+        }
+        
+        /* Container for Discovery Toggle and Label */
+        .discovery-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            gap: 10px; /* Add space between toggle and text */
+        }
+        
+        /* Discovery Label Text */
+        .discovery-label {
+            font-size: 1rem;
+            color: #555; /* Default text color */
+        }
+        
+        body.dark-mode .discovery-label {
+            color: #fff; /* Text color in dark mode */
+        }
+        
+        /* Toggle Switch Styles */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px; /* Width of the toggle */
+            height: 25px; /* Height of the toggle */
+        }
+        
+        .toggle-switch input {
+            opacity: 0; /* Hide the default checkbox */
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, #ffffff, #f8feff); /* Default background color */
+            border: 2px solid #e9eff4;
+            transition: 0.4s; /* Smooth transition */
+            border-radius: 25px; /* Make it rounded */
+        }
+        
+        .slider:hover {
+          border-color: #91a8c1;
+        }
+        
+        .slider:hover:before {
+          background-color: #91a8c1;
+        }
+        
+        body.dark-mode .slider:hover {
+          border-color: #c7e0ff;
+        }
+        
+        body.dark-mode .slider:hover:before {
+          background-color: #c7e0ff;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 17px; /* Size of the slider knob */
+            width: 17px;
+            left: 1.5px; /* Position inside the toggle container */
+            bottom: 2px;
+            background-color: #cbe2f5; /* Color of the knob */
+            transition: 0.4s;
+            border-radius: 50%; /* Make it circular */
+        }
+        
+        /* When the checkbox is checked */
+        input:checked + .slider {
+            background: linear-gradient(to bottom, #ffffff, #d6fafd); /* Checked state background color */
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px); /* Move the knob to the right */
+        }
+        
+        body.dark-mode .slider {
+            background: linear-gradient(to bottom, #21252a, #000000); /* Default background color */
+            border: 2px solid #e9eff4;
+        }
+        
+        body.dark-mode .slider:before {
+            background-color: #ffffff; /* Color of the knob */
+        }
+        
+        body.dark-mode input:checked + .slider {
+            background: linear-gradient(to bottom, #516672, #000000); /* Checked state background color */
+        }
+        
+        .or-text {
+          font-size: 1rem;
+          color: #555;
+          white-space: nowrap; /* Prevent wrapping of the "or" text */
+        }
+      
+        body.dark-mode .or-text {
+          color: #aaa;
+        }
+      
+        .create-save-button {
+          background: linear-gradient(to bottom, #ffffff, #f8feff);
+          border: 2px solid #e9eff4;
+          color: #000;
+          font-size: 1rem;
+          font-weight: bold;
+          padding: 12px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background 0.3s ease, color 0.3s ease;
+        }
+      
+        .create-save-button:hover {
+          background: linear-gradient(to bottom, #ffffff, #d6fafd);
+          border-color: #91a8c1;
+        }
+      
+        body.dark-mode .create-save-button {
+          color: #f0f0f0;
+          background: linear-gradient(to bottom, #21252a, #000000);
+          border: 2px solid #ffffff;
+        }
+      
+        body.dark-mode .create-save-button:hover {
+          background: linear-gradient(to bottom, #516672, #000000);
+          border-color: #c7e0ff;
+        }
+        
+        .custom-upload-button,
+        .create-save-button {
+          flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        
+        .add-button,
+        .export-button {
+          flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="background"></canvas>
+    <div class="logo-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Infinite_Craft_logo.svg" alt="Infinite Craft Logo">
+        <p>Save Editor</p>
+    </div>
+    <!-- Custom File Upload -->
+    <div class="custom-upload-container">
+      <div class="button-row">
+          <button class="custom-upload-button" id="uploadButton">Upload File</button>
+          <span class="or-text">or</span>
+          <button class="create-save-button" id="createSaveButton">Create New Save</button>
+      </div>
+      <span id="fileName" class="file-name">No file selected</span>
+      <input type="file" id="fileInput" accept=".ic">
+    </div>
+    <div class="search-container">
+      <input type="text" id="searchBar" placeholder="Search items..." class="search-bar hidden">
+    </div>
+    <div id="nameEditor" class="name-editor hidden">
+      <label for="nameInput">Edit Name:</label>
+      <input type="text" id="nameInput" class="name-input" placeholder="Enter name..." />
+    </div>
+    <div id="editor"></div>
+    <div class="custom-upload-container">
+      <div class="button-row">
+        <button id="addRow" class="add-button hidden">Add New Item</button>
+        <button id="exportJson" class="export-button hidden">Export .ic File</button>
+      </div>
+    </div>
+
+
+    <!-- Dark mode toggle button -->
+    <button class="dark-mode-toggle" id="darkModeToggle">
+      <img id="darkModeIcon" src="https://neal.fun/infinite-craft/dark-mode.svg" alt="Toggle Dark Mode">
+    </button>
+
+
+    <script>
+        // Dark mode toggle functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const body = document.body;
+        
+        // Initialize dark mode state
+        const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Check localStorage
+        const prefersDarkMode = matchMedia('(prefers-color-scheme: dark)').matches; // Check system preference
+        
+        if (isDarkModeEnabled) {
+          // Apply dark mode if the user explicitly enabled it
+          body.classList.add('dark-mode');
+          darkModeToggle.classList.add('dark');
+          darkModeIcon.src = "https://neal.fun/infinite-craft/dark-mode-on.svg"; // Set dark mode icon
+        } else {
+          // Default to light mode
+          body.classList.remove('dark-mode');
+          darkModeIcon.src = "https://neal.fun/infinite-craft/dark-mode.svg"; // Set light mode icon
+        }
+        
+        // Add event listener to toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+          const isDarkMode = body.classList.toggle('dark-mode');
+          darkModeIcon.src = isDarkMode
+            ? "https://neal.fun/infinite-craft/dark-mode-on.svg" // Dark mode icon
+            : "https://neal.fun/infinite-craft/dark-mode.svg";   // Light mode icon
+          darkModeToggle.classList.toggle('dark', isDarkMode);
+        
+          // Save the current dark mode state to localStorage
+          localStorage.setItem('dark-mode', isDarkMode);
+        });
+
+
+        // Canvas and context setup
+        const canvas = document.getElementById("background");
+        const ctx = canvas.getContext("2d");
+        let dots = [];
+
+
+        // Resize canvas and reposition existing dots
+        function resizeCanvas() {
+            const oldWidth = canvas.width;
+            const oldHeight = canvas.height;
+
+
+            // Update canvas dimensions
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+
+            // Reposition dots proportionally to new size
+            dots.forEach(dot => {
+                dot.x = (dot.x / oldWidth) * canvas.width;
+                dot.y = (dot.y / oldHeight) * canvas.height;
+            });
+        }
+
+
+        // Generate a random shade of gray
+        function randomGray() {
+            const value = Math.floor(Math.random() * 151) + 100; // Random value between 100 and 255
+            return `rgb(${value}, ${value}, ${value})`;
+        }
+
+
+        // Create dots with random positions, velocities, and colors
+        function createDots() {
+          const numDots = 60; // Number of dots
+          dots = Array.from({ length: numDots }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            radius: Math.random() * 2.1 + 1.5, // Random radius between 1.5 and 2.1
+            color: randomGray(),
+          }));
+        }
+              
+        // Function to get the current base line color
+        function getLineColorBase() {
+          return getComputedStyle(document.body).getPropertyValue('--line-color-base').trim();
+        }
+        
+        function getCanvasBackgroundColor() {
+          return getComputedStyle(document.body).getPropertyValue('--canvas-background').trim();
+        }
+
+
+        // Draw dots and connecting lines
+        function drawDots() {
+            const canvasBackgroundColor = getCanvasBackgroundColor();
+            ctx.fillStyle = canvasBackgroundColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height); // Clear the canvas with the current background color
+
+
+            // Draw each dot
+            dots.forEach(dot => {
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+
+
+                if (dot.x < 0 || dot.x > canvas.width) dot.vx *= -1;
+                if (dot.y < 0 || dot.y > canvas.height) dot.vy *= -1;
+
+
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
+                ctx.fillStyle = dot.color;
+                ctx.fill();
+            });
+            
+            // Get the current base line color
+            const lineColorBase = getLineColorBase();
+
+
+            // Draw lines between close dots
+            for (let i = 0; i < dots.length; i++) {
+                for (let j = i + 1; j < dots.length; j++) {
+                    const dx = dots[i].x - dots[j].x;
+                    const dy = dots[i].y - dots[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+
+                    if (distance < 80) {
+                        // Calculate opacity based on distance
+                        const opacity = 1 - distance / 80;
+
+
+                        // Create a dynamic line color with adjusted opacity
+                        const lineColor = lineColorBase.replace(/rgba\(([^,]+),([^,]+),([^,]+),[^)]+\)/, `rgba($1,$2,$3,${opacity})`);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(dots[i].x, dots[i].y);
+                        ctx.lineTo(dots[j].x, dots[j].y);
+                        ctx.strokeStyle = lineColor;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+
+        // Animation loop
+        function animate() {
+            drawDots();
+            requestAnimationFrame(animate);
+        }
+        
+        // window.addEventListener("scroll", () => {
+        // const scrollHeight = document.body.scrollHeight;
+        // const scrollTop = window.scrollY + window.innerHeight;
+
+
+        // Add more dots when near the bottom of the page
+        // if (scrollTop + 100 >= scrollHeight) {
+        //     createDots(20); // Add 20 new dots
+        //     resizeCanvas(); // Adjust canvas height dynamically
+        //   }
+        // });
+
+
+        // Initialize canvas animation
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        createDots();
+        animate();
+
+
+        // File input customization
+        const fileInput = document.getElementById('fileInput');
+        const uploadButton = document.getElementById('uploadButton');
+        const fileNameDisplay = document.getElementById('fileName');
+
+
+        // Open file dialog when custom button is clicked
+        uploadButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+
+        // Display file name after selecting a file
+        fileInput.addEventListener('change', function() {
+            const file = fileInput.files[0];
+            if (file) {
+                fileNameDisplay.textContent = file.name;
+            } else {
+                fileNameDisplay.textContent = "No file selected";
+            }
+        });
+
+
+        // File handling and editor functionality
+        const editor = document.getElementById('editor');
+        const addRowButton = document.getElementById('addRow');
+        const exportButton = document.getElementById('exportJson');
+        const searchQuery = document.getElementById('searchBar');
+        let jsonData = {};
+        let originalFileName = "updated_file.ic";
+
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                originalFileName = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const compressedData = new Uint8Array(e.target.result);
+                        const decompressedData = pako.inflate(compressedData, { to: 'string' });
+                        jsonData = JSON.parse(decompressedData);
+                        if (jsonData.items && Array.isArray(jsonData.items)) {
+                            renderItemsEditor(jsonData.items);
+
+
+                            // Show the buttons after a file is loaded
+                            addRowButton.classList.remove('hidden');
+                            exportButton.classList.remove('hidden');
+                            searchQuery.classList.remove('hidden');
+                        } else {
+                            editor.innerHTML = `<p>No valid <code>items</code> array found in the JSON.</p>`;
+                        }
+                    } catch (error) {
+                        editor.innerHTML = `<p>Error during decompression or parsing: ${error.message}</p>`;
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+        
+        let filteredItems = []; // Temporary storage for filtered items
+        
+        // Render items in the editor
+        function renderItemsEditor(items) {
+          editor.innerHTML = ""; // Clear the editor content
+          items.forEach((item, index) => {
+              const block = document.createElement("div");
+              block.className = "item-block";
+              block.setAttribute("data-index", index);
+      
+              // Create the item HTML with the toggle switch for "discovery"
+              block.innerHTML = `
+                  <div class="item-id">ID: ${item.id}</div>
+                  <input type="text" value="${item.text}" class="item-text" />
+                  <input type="text" value="${item.emoji}" class="item-emoji" maxlength="2" />
+                  <div class="discovery-container">
+                      <label class="toggle-switch">
+                          <input type="checkbox" class="discovery-checkbox" ${
+                              item.discovery ? "checked" : ""
+                          } />
+                          <span class="slider"></span>
+                      </label>
+                      <span class="discovery-label">Discovery</span>
+                  </div>
+                  <button class="delete-button">Delete</button>
+              `;
+      
+              // Update the item text when modified
+              block.querySelector(".item-text").addEventListener("input", () => {
+                  const itemIndex = jsonData.items.findIndex(i => i.id === item.id);
+                  if (itemIndex !== -1) {
+                      jsonData.items[itemIndex].text = block.querySelector(".item-text").value;
+                  }
+              });
+      
+              // Update the item emoji when modified
+              block.querySelector(".item-emoji").addEventListener("input", () => {
+                  const itemIndex = jsonData.items.findIndex(i => i.id === item.id);
+                  if (itemIndex !== -1) {
+                      jsonData.items[itemIndex].emoji = block.querySelector(".item-emoji").value;
+                  }
+              });
+      
+              // Handle the toggle switch for "discovery"
+              block.querySelector(".discovery-checkbox").addEventListener("change", (event) => {
+                  const isChecked = event.target.checked;
+                  const itemIndex = jsonData.items.findIndex(i => i.id === item.id);
+                  if (itemIndex !== -1) {
+                      if (isChecked) {
+                          // Add "discovery": true to the item
+                          jsonData.items[itemIndex].discovery = true;
+                      } else {
+                          // Remove "discovery" from the item
+                          delete jsonData.items[itemIndex].discovery;
+                      }
+                  }
+              });
+      
+              // Handle deleting the row
+              block.querySelector(".delete-button").addEventListener("click", () => deleteRow(item.id));
+      
+              editor.appendChild(block);
+          });
+        }
+
+
+        function updateJsonFromEditor() {
+            const blocks = document.querySelectorAll(".item-block");
+            jsonData.items = Array.from(blocks).map((block, index) => ({
+                id: index,
+                text: block.querySelector(".item-text").value,
+                emoji: block.querySelector(".item-emoji").value,
+            }));
+        }
+
+
+        function deleteRow(index) {
+            jsonData.items.splice(index, 1);
+            jsonData.items = jsonData.items.map((item, i) => ({ ...item, id: i }));
+            renderItemsEditor(jsonData.items);
+        }
+
+
+        addRowButton.addEventListener("click", () => {
+          const nextId = jsonData.items.length;
+          jsonData.items.push({ id: nextId, text: "New Item", emoji: "🆕" });
+          renderItemsEditor(jsonData.items);
+      
+          // Focus on the newly created item's text input field
+          const newItemBlock = document.querySelector(`.item-block[data-index="${nextId}"]`);
+          if (newItemBlock) {
+              const newItemTextInput = newItemBlock.querySelector(".item-text");
+              if (newItemTextInput) {
+                  newItemTextInput.focus();
+                  // Move the caret to the end of the text
+                  const textLength = newItemTextInput.value.length;
+                  newItemTextInput.setSelectionRange(textLength, textLength);
+              }
+          }
+        });
+
+
+        exportButton.addEventListener("click", () => {
+            try {
+                const updatedJson = JSON.stringify({ ...jsonData, updated: Date.now() }, null, 2);
+                const compressedData = pako.gzip(updatedJson);
+                const blob = new Blob([compressedData], { type: "application/gzip" });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = originalFileName;
+                link.click();
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error("Error exporting .ic file:", error.message);
+            }
+        });
+        
+        // Search functionality
+        searchBar.addEventListener("input", () => {
+            const query = searchBar.value.toLowerCase().trim();
+        
+            // If the search query is empty, show all items (reset search)
+            if (query === "") {
+                resetSearch();
+            } else {
+                // Filter items for the search query
+                filteredItems = jsonData.items.filter(item =>
+                    item.text.toLowerCase().includes(query) ||
+                    item.emoji.toLowerCase().includes(query)
+                );
+                renderItemsEditor(filteredItems); // Display only filtered items
+            }
+        });
+        
+        // Function to reset the search bar and re-render all items
+        function resetSearch() {
+            searchBar.value = ""; // Clear the search bar
+            filteredItems = []; // Clear the filtered items
+            renderItemsEditor(jsonData.items); // Re-render all items
+        }
+        
+        // Delete a row by item ID
+        function deleteRow(id) {
+            // Remove item from the original dataset
+            jsonData.items = jsonData.items.filter(item => item.id !== id);
+        
+            // Update the filtered items, if a search is active
+            if (filteredItems.length > 0) {
+                filteredItems = filteredItems.filter(item => item.id !== id);
+            }
+        
+            // Re-render the current view (filtered or all items)
+            const itemsToRender = filteredItems.length > 0 ? filteredItems : jsonData.items;
+            renderItemsEditor(itemsToRender);
+        }
+        
+        const nameEditor = document.getElementById('nameEditor');
+        const nameInput = document.getElementById('nameInput');
+    
+        // Show the name editor when a file is loaded
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                originalFileName = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const compressedData = new Uint8Array(e.target.result);
+                        const decompressedData = pako.inflate(compressedData, { to: 'string' });
+                        jsonData = JSON.parse(decompressedData);
+    
+                        if (jsonData.name) {
+                            nameInput.value = jsonData.name; // Populate the name input with the current value
+                            nameEditor.classList.remove('hidden'); // Show the name editor
+                        }
+    
+                        if (jsonData.items && Array.isArray(jsonData.items)) {
+                            renderItemsEditor(jsonData.items);
+    
+                            // Show the buttons after a file is loaded
+                            addRowButton.classList.remove('hidden');
+                            exportButton.classList.remove('hidden');
+                            searchQuery.classList.remove('hidden');
+                        } else {
+                            editor.innerHTML = `<p>No valid <code>items</code> array found in the JSON.</p>`;
+                        }
+                    } catch (error) {
+                        editor.innerHTML = `<p>Error during decompression or parsing: ${error.message}</p>`;
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+    
+        // Update the JSON when the name is edited
+        nameInput.addEventListener('input', () => {
+            jsonData.name = nameInput.value; // Update the JSON's name property
+        });
+        
+        const createSaveButton = document.getElementById('createSaveButton');
+
+
+        createSaveButton.addEventListener('click', () => {
+          // Get the current timestamp in milliseconds
+          const currentTimestamp = Date.now();
+          
+          // Base save structure with the specified elements and metadata
+          jsonData = {
+            name: "New Save",
+            version: "1.0",
+            created: currentTimestamp,       // Current UNIX timestamp in milliseconds
+            updated: 0,                      // Initially set to 0
+            instances: [],                   // Empty array for instances
+            items: [
+              { id: 0, text: "Water", emoji: "💧" },
+              { id: 1, text: "Fire", emoji: "🔥" },
+              { id: 2, text: "Wind", emoji: "🌬️" },
+              { id: 3, text: "Earth", emoji: "🌍" }
+            ]
+          };
+        
+          // Render the base save in the editor
+          renderItemsEditor(jsonData.items);
+        
+          // Show the buttons and name editor for the newly created save
+          document.getElementById('nameEditor').classList.remove('hidden');
+          document.getElementById('addRow').classList.remove('hidden');
+          document.getElementById('exportJson').classList.remove('hidden');
+          document.getElementById('searchBar').classList.remove('hidden');
+        
+          // Set the name input to the base save's name
+          const nameInput = document.getElementById('nameInput');
+          nameInput.value = jsonData.name;
+        });
+    </script>
+</body>
+</html>
