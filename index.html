@@ -471,8 +471,8 @@
             content: "";
             height: 17px; /* Size of the slider knob */
             width: 17px;
-            left: 1.5px; /* Position inside the toggle container */
-            bottom: 2px;
+            left: 2.5px; /* Position inside the toggle container */
+            bottom: 3px;
             background-color: #cbe2f5; /* Color of the knob */
             transition: 0.4s;
             border-radius: 50%; /* Make it circular */
@@ -484,12 +484,12 @@
         }
         
         input:checked + .slider:before {
-            transform: translateX(26px); /* Move the knob to the right */
+            transform: translateX(24px); /* Move the knob to the right */
         }
         
         body.dark-mode .slider {
             background: linear-gradient(to bottom, #21252a, #000000); /* Default background color */
-            border: 2px solid #e9eff4;
+            border: 1px solid #e9eff4;
         }
         
         body.dark-mode .slider:before {
