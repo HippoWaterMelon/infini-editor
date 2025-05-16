@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Craft Save Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAKlBMVEVHcEw6OjpISEiYmJhwcHCIiIhUVFRiYmK+vr58fHzk5OQAAAAZGRksLCyItmvEAAAAC3RSTlMA+OU3jlTMrCJvDa5ZFSAAAARHSURBVHic7Vrr0uMgCI2XXKvv/7obE2MUULHbmZ3Z4fz72gIHBFT8pkkgEAgEAoFAIBAIBAKBoIZjMye2459oOWa7aOVPKL3YefvSeKmFT8Ksyn0yOLUOSCfr32qZtf8gOGXHKOzaEVr03hU0CyF4Qc9887OuKHEdLYclvE/CKzMIx1pz4oRvadmWuuAl3I9gcF+1tWhTkzQdyabw60TD/RuqsgxzI/wJvXVYOUo8yYBlv8H/imEt+RgMGPGPcLZmv5XCgAFayoPk7s4WFpoZ+Hghl+GAKRylyZxQsLtS+a9s/NV2drW2ePhR6cLZ9x5pSwV3KaV3TBP0vrK34BCWS6j3QnjHFMqF3NAP3IqcLCjANCrsK9QviN5U+LCib6mWU/TJMga5fU9uG7jIskUwkB5dqGWXURmDLIJuqWzeBjJwrxGUvvVSz1bzzcSshBrdGjHQ1QC0Wn7Wa/QT6teBZquegZ3kJ8yApaGkKPcFyl/hr/dqGOkof4DQuN4J7M3oNfxpk2Bvv4aW/G1pB7zWjv3TZGJgsxbi+oIw1ncvAIHpBiBn4OaUWgz7KAT3GijqQy4D/0jXt6gcwNlrDWBusk492Srw/a8Ys0BT98xDMWDanzawBkEMREV3lVAMmPanSWNr4CO2qjx0fCFQB+r8CASFlUuAAd/+NIMFP6atTIvGNlB1h1U3EbDtm8kASkMX0Wv59MilDWbhDGPihwgEdWOUYdfZYSNWQ9qusuY1jgf6lwTuc8hY0H5KILYQdusgCcAcGMioVNMDZYhzAFTBQDyzozy/eRyIAOwDzK2gvErwtsIAWIYGdkJ2I9pvOb2MMQCNKNQwiAlTU7SvjphVvNkFOn75Ce2GvL4arxkhXvFIxGQANiONP2Jl4XPNucIVk4HFAN4BQ/2AOuTU1GO/PJZzGIDTz9VF0Vm5Wwdx/UMC3IjNpZ+JsAbucMPrQq+xPUehl+mjt3sxoE3BsLQXIY3yXBbx1BOWZvjQJdwW/FkM3stp8aP3mN5IBGT/6Xp4PEMPgYrrOSjXpLx6Pcf202LDw3r4itSSzUDhMah7Q0cjrE92kiAmZJSW7CCOSyWfURBLSM1vUxVRIcDT8XxERA4afV2WnMHnWUwPOJU1D8fN6opoxtCXsvHjw1hafV7uaEaSXFXLgoaNtYZTzvqc10EWTTnT90WUcIY2UK1S1FH4WuhJLY3GPaDz3pADDlvRCKuK1l6BB55VLSiNiWEtCToBH3Bn/pQWOHKoSHZ2PJ4ftBYOg/6OuzNiUBtn9N8bPOPE2GdQ96In23qtedF7NWttmKZVR47eoTDaD2fth7eDfN243R+YnRAPFI/73Sdgs5LCamVfmQI2WotnaTkpwLOjtkPmLwoWPoI7vhPHvGrlnQs7ilf6i8f7S8u5DSrvgxb3hZbNzLu1+2y+/O+FX2j5y//e+LkegUAgEAgEAoFAIBD8p/gD8s2ep8QcwjoAAAAASUVORK5CYII="> 
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <canvas id="background"></canvas>
+    <div class="logo-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Infinite_Craft_logo.svg" alt="Infinite Craft Logo">
+        <p>Save Editor</p>
+    </div>
+    <!-- Custom File Upload -->
+    <div class="custom-upload-container">
+      <div class="button-row">
+          <button class="custom-upload-button" id="uploadButton">Upload File</button>
+          <span class="or-text">or</span>
+          <button class="create-save-button" id="createSaveButton">Create New Save</button>
+      </div>
+      <span id="fileName" class="file-name">No file selected</span>
+      <input type="file" id="fileInput" accept=".ic">
+    </div>
+    <div class="search-container">
+      <input type="text" id="searchBar" placeholder="Search items..." class="search-bar hidden">
+    </div>
+    <div id="nameEditor" class="name-editor hidden">
+      <label for="nameInput">Edit Name:</label>
+      <input type="text" id="nameInput" class="name-input" placeholder="Enter name..." />
+    </div>
+    <div id="editor"></div>
+    <div class="custom-upload-container">
+      <div class="button-row">
+        <button id="addRow" class="add-button hidden">Add New Item</button>
+        <button id="exportJson" class="export-button hidden">Export .ic File</button>
+      </div>
+    </div>
+
+    <!-- Dark mode toggle button -->
+    <button class="dark-mode-toggle" id="darkModeToggle">
+      <img id="darkModeIcon" src="https://neal.fun/infinite-craft/dark-mode.svg" alt="Toggle Dark Mode">
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
