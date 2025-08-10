@@ -1,24 +1,20 @@
-/* General body styles */
         body {
             font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
             overflow: auto;
-            background-color: #ffffff; /* Light mode background */
-            color: #000000; /* Light mode text color */
+            background-color: #ffffff; 
+            color: #000000; 
             transition: background-color 0.3s ease, color 0.3s ease;
-            --line-color-base: rgba(0, 0, 0, 1); /* Black for light mode */
+            --line-color-base: rgba(0, 0, 0, 1); 
             --canvas-background: #ffffff;
         }
 
-
-        /* Dark mode styles */
         body.dark-mode {
-            background-color: #121212; /* Dark mode background */
-            color: #f0f0f0; /* Dark mode text color */
-            --line-color-base: rgba(255, 255, 255, 1); /* White for dark mode */
+            background-color: #121212; 
+            color: #f0f0f0; 
+            --line-color-base: rgba(255, 255, 255, 1); 
             --canvas-background: #121212;
         }
-
 
         canvas {
             position: fixed;
@@ -29,47 +25,41 @@
             z-index: -1;
         }
 
-
         .logo-container {
             text-align: center;
             margin-top: 20px;
         }
 
-
         .logo-container img {
             width: 200px;
             height: auto;
-            filter: invert(0); /* Default logo for light mode */
+            filter: invert(0); 
             transition: filter 0.3s ease;
         }
 
-
         body.dark-mode .logo-container img {
-            filter: invert(1); /* Logo inversion for dark mode */
+            filter: invert(1); 
         }
-
 
         .logo-container p {
             font-size: 1.5rem;
-            color: inherit; /* Inherit text color based on theme */
+            color: inherit; 
             margin-top: 10px;
         }
 
-
-        /* Custom File Upload Button */
         .custom-upload-container {
           display: flex;
-          flex-direction: column; /* Stack elements vertically */
-          align-items: center; /* Center align items horizontally */
-          gap: 10px; /* Add spacing between the elements */
+          flex-direction: column; 
+          align-items: center; 
+          gap: 10px; 
         }
-      
+
         .button-row {
-          display: flex; /* Align buttons and "or" text horizontally */
-          align-items: center; /* Vertically align buttons and text */
-          gap: 15px; /* Add spacing between buttons and "or" text */
+          display: flex; 
+          align-items: center; 
+          gap: 15px; 
         }
-        
+
         .custom-upload-button {
             display: inline-block;
             padding: 12px 25px;
@@ -83,24 +73,21 @@
             font-weight: bold;
         }
 
-
         .custom-upload-button:hover {
             background: linear-gradient(to bottom, #ffffff, #d6fafd);
             border-color: #91a8c1;
         }
-
 
         body.dark-mode .custom-upload-button {
             color: #ffffff;
             background: linear-gradient(to bottom, #21252a, #000000);
             border: 2px solid #ffffff;
         }
-        
+
         body.dark-mode .custom-upload-button:hover {
             background: linear-gradient(to bottom, #516672, #000000);
             border: 2px solid #c7e0ff;
         }
-
 
         .file-name {
             display: block;
@@ -110,19 +97,14 @@
             color: #555;
         }
 
-
         body.dark-mode .file-name {
             color: #aaaaaa;
         }
 
-
-        /* Hidden File Input */
         #fileInput {
             display: none;
         }
 
-
-        /* Editor Grid Layout */
         #editor {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -131,8 +113,6 @@
             margin: 20px auto;
         }
 
-
-        /* Block Styles */
         .item-block {
             background: linear-gradient(to bottom, #ffffff, #f8feff);
             border: 2px solid #e9eff4;
@@ -145,12 +125,10 @@
             justify-content: center;
         }
 
-
         body.dark-mode .item-block {
             background: linear-gradient(to bottom, #21252a, #000000);
             border: 2px solid #ffffff;
         }
-
 
         .item-id {
             font-size: 1rem;
@@ -159,11 +137,9 @@
             margin-bottom: 10px;
         }
 
-
         body.dark-mode .item-id {
             color: #fff;
         }
-
 
         .item-text {
             font-size: 1.2rem;
@@ -177,13 +153,11 @@
             text-align: center;
         }
 
-
         body.dark-mode .item-text {
             color: #fff;
             background: #222;
             border: 1px solid #fff;
         }
-
 
         .item-emoji {
             font-size: 2rem;
@@ -195,13 +169,11 @@
             margin: 10px 0;
         }
 
-
         body.dark-mode .item-emoji {
             color: #fff;
             background: #222;
             border: 1px solid #fff;
         }
-
 
         .delete-button {
             background: linear-gradient(to bottom, #ffffff, #f8feff);
@@ -216,27 +188,23 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-
         .delete-button:hover {
             background: linear-gradient(to bottom, #ffffff, #d6fafd);
             color: #000;
             border-color: #91a8c1;
         }
 
-
         body.dark-mode .delete-button {
             color: #f0f0f0;
             background: linear-gradient(to bottom, #21252a, #000000);
             border: 1px solid #555555;
         }
-      
+
         body.dark-mode .delete-button:hover {
             background: linear-gradient(to bottom, #516672, #000000);
             border: 2px solid #c7e0ff;
         }
 
-
-        /* Add and Export Buttons */
         .add-button,
         .export-button {
           background: linear-gradient(to bottom, #ffffff, #f8feff);
@@ -251,19 +219,16 @@
           margin: 20px auto;
         }
 
-
         .add-button:hover,
         .export-button:hover {
             background: linear-gradient(to bottom, #ffffff, #d6fafd);
             color: #000;
             border-color: #91a8c1;
         }
-        
-        /* Hidden class for hiding elements */
+
         .hidden {
             display: none;
         }
-
 
         body.dark-mode .add-button,
         body.dark-mode .export-button {
@@ -271,62 +236,54 @@
             background: linear-gradient(to bottom, #21252a, #000000);
             border: 2px solid #ffffff;
         }
-        
+
         body.dark-mode .add-button:hover,
         body.dark-mode .export-button:hover {
             background: linear-gradient(to bottom, #516672, #000000);
             border: 2px solid #c7e0ff;
         }
 
-
-        /* Dark mode toggle button without background circle */
         .dark-mode-toggle {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            width: 30px; /* Adjust width to match the icon size */
-            height: 30px; /* Adjust height to match the icon size */
-            background-color: #ffffff; /* Remove background color */
-            border: none; /* Remove border */
+            width: 30px; 
+            height: 30px; 
+            background-color: #ffffff; 
+            border: none; 
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 10; /* Keep above other elements */
-            /* opacity: 0; */
+            z-index: 10; 
+
             visibility: hidden;
         }
-        
-        /* Style the dark mode icon */
+
         #darkModeIcon {
-          width: 30px; /* Set the width of the image */
-          height: 30px; /* Set the height of the image */
-          transition: filter 0.3s ease; /* Smooth transition for inversion */
+          width: 30px; 
+          height: 30px; 
+          transition: filter 0.3s ease; 
           visibility: visible;
         }
 
-
-        /* Apply inversion in dark mode */
         body.dark-mode #darkModeIcon {
-          filter: invert(1); /* Invert the image color */
+          filter: invert(1); 
         }
-
 
         .dark-mode-toggle.dark {
-            background-color: #000000; /* White for dark mode */
+            background-color: #000000; 
         }
-        
-        /* Style for the search bar */
+
         .search-container {
           position: sticky;
-          top: 20px; /* Stick to the top of the viewport */
-          z-index: 1000; /* Ensure it appears on top of other elements */
+          top: 20px; 
+          z-index: 1000; 
           text-align: center;
           margin-left: 20px;
           margin-right: 20px;
           margin-bottom: 20px;
         }
-
 
         .search-bar {
           width: 90%;
@@ -339,11 +296,9 @@
           transition: border-color 0.3s ease;
         }
 
-
         .search-bar:focus {
             border-color: #91a8c1;
         }
-
 
         body.dark-mode .search-bar {
             background: #222;
@@ -351,25 +306,23 @@
             border: 2px solid #fff;
         }
 
-
         body.dark-mode .search-bar:focus {
             border-color: #c7e0ff;
         }
-        
-        /* Style for the Name Editor */
+
         .name-editor {
             text-align: center;
             margin: 20px auto;
             padding: 10px;
         }
-    
+
         .name-editor label {
           font-size: 1.2rem;
-          margin-right: 20px; /* Keeps space between label and input */
-          margin-bottom: 10px; /* Reduce bottom margin for closer alignment */
-          display: inline-block; /* Ensure proper alignment */
+          margin-right: 20px; 
+          margin-bottom: 10px; 
+          display: inline-block; 
         }
-    
+
         .name-input {
             width: 90%;
             max-width: 500px;
@@ -380,53 +333,50 @@
             outline: none;
             transition: border-color 0.3s ease;
         }
-    
+
         .name-input:focus {
             border-color: #91a8c1;
         }
-    
+
         body.dark-mode .name-input {
             background: #222;
             color: #fff;
             border: 2px solid #fff;
         }
-    
+
         body.dark-mode .name-input:focus {
             border-color: #c7e0ff;
         }
-        
-        /* Container for Discovery Toggle and Label */
+
         .discovery-container {
             display: flex;
             align-items: center;
             margin-top: 10px;
-            gap: 10px; /* Add space between toggle and text */
+            gap: 10px; 
         }
-        
-        /* Discovery Label Text */
+
         .discovery-label {
             font-size: 1rem;
-            color: #555; /* Default text color */
+            color: #555; 
         }
-        
+
         body.dark-mode .discovery-label {
-            color: #fff; /* Text color in dark mode */
+            color: #fff; 
         }
-        
-        /* Toggle Switch Styles */
+
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 50px; /* Width of the toggle */
-            height: 25px; /* Height of the toggle */
+            width: 50px; 
+            height: 25px; 
         }
-        
+
         .toggle-switch input {
-            opacity: 0; /* Hide the default checkbox */
+            opacity: 0; 
             width: 0;
             height: 0;
         }
-        
+
         .slider {
             position: absolute;
             cursor: pointer;
@@ -434,72 +384,71 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to bottom, #ffffff, #f8feff); /* Default background color */
+            background: linear-gradient(to bottom, #ffffff, #f8feff); 
             border: 1px solid #e9eff4;
-            transition: 0.4s; /* Smooth transition */
-            border-radius: 25px; /* Make it rounded */
+            transition: 0.4s; 
+            border-radius: 25px; 
         }
-        
+
         .slider:hover {
           border-color: #91a8c1;
         }
-        
+
         .slider:hover:before {
           background-color: #91a8c1;
         }
-        
+
         body.dark-mode .slider:hover {
           border-color: #c7e0ff;
         }
-        
+
         body.dark-mode .slider:hover:before {
           background-color: #c7e0ff;
         }
-        
+
         .slider:before {
             position: absolute;
             content: "";
-            height: 17px; /* Size of the slider knob */
+            height: 17px; 
             width: 17px;
-            left: 2.5px; /* Position inside the toggle container */
+            left: 2.5px; 
             bottom: 3px;
-            background-color: #cbe2f5; /* Color of the knob */
+            background-color: #cbe2f5; 
             transition: 0.4s;
-            border-radius: 50%; /* Make it circular */
+            border-radius: 50%; 
         }
-        
-        /* When the checkbox is checked */
+
         input:checked + .slider {
-            background: linear-gradient(to bottom, #ffffff, #d6fafd); /* Checked state background color */
+            background: linear-gradient(to bottom, #ffffff, #d6fafd); 
         }
-        
+
         input:checked + .slider:before {
-            transform: translateX(24px); /* Move the knob to the right */
+            transform: translateX(24px); 
         }
-        
+
         body.dark-mode .slider {
-            background: linear-gradient(to bottom, #21252a, #000000); /* Default background color */
+            background: linear-gradient(to bottom, #21252a, #000000); 
             border: 1px solid #e9eff4;
         }
-        
+
         body.dark-mode .slider:before {
-            background-color: #ffffff; /* Color of the knob */
+            background-color: #ffffff; 
         }
-        
+
         body.dark-mode input:checked + .slider {
-            background: linear-gradient(to bottom, #516672, #000000); /* Checked state background color */
+            background: linear-gradient(to bottom, #516672, #000000); 
         }
-        
+
         .or-text {
           font-size: 1rem;
           color: #555;
-          white-space: nowrap; /* Prevent wrapping of the "or" text */
+          white-space: nowrap; 
         }
-      
+
         body.dark-mode .or-text {
           color: #aaa;
         }
-      
+
         .create-save-button {
           background: linear-gradient(to bottom, #ffffff, #f8feff);
           border: 2px solid #e9eff4;
@@ -511,29 +460,29 @@
           cursor: pointer;
           transition: background 0.3s ease, color 0.3s ease;
         }
-      
+
         .create-save-button:hover {
           background: linear-gradient(to bottom, #ffffff, #d6fafd);
           border-color: #91a8c1;
         }
-      
+
         body.dark-mode .create-save-button {
           color: #f0f0f0;
           background: linear-gradient(to bottom, #21252a, #000000);
           border: 2px solid #ffffff;
         }
-      
+
         body.dark-mode .create-save-button:hover {
           background: linear-gradient(to bottom, #516672, #000000);
           border-color: #c7e0ff;
         }
-        
+
         .custom-upload-button,
         .create-save-button {
-          flex-shrink: 0; /* Prevent buttons from shrinking */
+          flex-shrink: 0; 
         }
-        
+
         .add-button,
         .export-button {
-          flex-shrink: 0; /* Prevent buttons from shrinking */
+          flex-shrink: 0; 
         }
